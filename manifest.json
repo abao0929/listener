@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Event Side Panel Demo",
+  "version": "0.3.0",
+  "description": "Side panel to start/stop listeners across all tabs in current window and log events.",
+  "permissions": [
+    "sidePanel",
+    "scripting",
+    "tabs",
+    "windows",
+    "storage",
+    "downloads"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background/index.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Open Side Panel"
+  },
+  "side_panel": {
+    "default_path": "panel/main.html"
+  }
+}
