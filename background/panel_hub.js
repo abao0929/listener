@@ -12,8 +12,13 @@ export class PanelHub {
   broadcast(windowId, msg) {
     const set = this.portsByWindow.get(windowId);
     if (!set) return;
-    for (const port of Array.from(set)) {
-      try { port.postMessage(msg); } catch (_) {}
+    for (const port of set) {
+      try {
+        port.postMessage(msg);
+      } catch (_) {
+        // Remove disconnected ports to keep the set clean
+        set.delete(port);
+      }
     }
   }
 }

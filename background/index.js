@@ -22,7 +22,7 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
 
     const payload = { ...(msg.payload || {}), frameId: sender.frameId };
 
-    log.push(windowId, msg.eventType, tab.id, msg.payload || {});
+    log.push(windowId, msg.eventType, tab.id, payload);
   }
 });
 
@@ -47,8 +47,8 @@ chrome.runtime.onConnect.addListener((port) => {
     }
 
     if (msg?.type === 'cmd') {
-      const { cmd, windowId } = msg;
-      route({ cmd, windowId, port });
+      const { cmd, windowId, args } = msg;
+      route({ cmd, windowId, port, args });
     }
   });
 

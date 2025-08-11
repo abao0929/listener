@@ -4,6 +4,8 @@
   if (window.__REPLAY_AGENT_BOUND__) return;
   window.__REPLAY_AGENT_BOUND__ = true;
 
+  
+
   // ---------- 查找工具 ----------
   function $xUnique(xpath, root = document) {
     try {

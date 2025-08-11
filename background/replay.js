@@ -5,6 +5,7 @@ export class Replayer {
     this.hub = hub;
     this.runningByWindow = new Map(); // windowId -> state
   }
+  
 
   isRunning(windowId) {
     const st = this.runningByWindow.get(windowId);
