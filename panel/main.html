@@ -2,20 +2,36 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Event Panel</title>
+    <title>事件侧板</title>
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
     <header>
-      <button id="startBtn">Start</button>
-      <button id="stopBtn">Stop</button>
-      <button id="clearBtn" title="清空所有记录">Clear</button>
-      <button id="downloadBtn" title="下载JSON">Download</button>
-      <label class="right">
-        <input type="checkbox" id="followTail" checked />
-        Follow Tail
-      </label>
+      <div class="toolbar">
+        <!-- 录制/监听（第1排左侧） -->
+        <div class="group">
+          <button id="startBtn" title="开始监听">开始</button>
+          <button id="stopBtn" title="停止监听">停止</button>
+          <button id="clearBtn" title="清空当前窗口的所有记录">清空</button>
+          <button id="downloadBtn" title="下载JSON">下载</button>
+        </div>
+        <label class="right">
+          <input type="checkbox" id="followTail" checked />
+          Follow Tail
+        </label>
+      </div>
+
+      <div class="toolbar">
+        <!-- 回放控制（第2排） -->
+        <div class="group">
+          <button id="replayStartBtn" title="回放已录制的事件">回放</button>
+          <button id="replayPauseBtn" title="暂停回放">暂停</button>
+          <button id="replayResumeBtn" title="继续回放">继续</button>
+          <button id="replayStopBtn" title="结束回放">结束</button>
+        </div>
+      </div>
     </header>
+
     <section id="log"></section>
     <script src="main.js"></script>
   </body>

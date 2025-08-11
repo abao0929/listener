@@ -50,7 +50,12 @@ export class ListenerController {
     try {
       await chrome.scripting.executeScript({
         target: { tabId, allFrames: true },
-        files: ['content/mouse_listener.js', 'content/bridge.js'],
+        files: [
+          'content/mouse_listener.js',
+          'content/text_listener.js', 
+          'content/bridge.js',
+          'content/replay_agent.js'
+        ],
         injectImmediately: true
       });
     } catch (_) { /* 无法注入的页面忽略 */ }
@@ -58,11 +63,21 @@ export class ListenerController {
 
   _wireGlobalEvents() {
     chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-      if (changeInfo.status !== 'complete') return;
+      
       const wId = tab.windowId;
       if (!this.startedWindows.has(wId)) return;
-      await this._injectIntoTab(tabId);
-      try { await chrome.tabs.sendMessage(tabId, { command: 'START' }); } catch (_) {}
+      
+      if (changeInfo.url) {
+        this.log.push(wId, 'tab_url_changed', tabId, {
+          url: changeInfo.url || '',
+          title: tab ? (tab.title || '') : ''
+        });
+      }
+
+      if (changeInfo.status === 'complete') {
+        await this._injectIntoTab(tabId);
+        try { await chrome.tabs.sendMessage(tabId, { command: 'START' }); } catch (_) {}
+      }
     });
 
     chrome.tabs.onCreated.addListener(async (tab) => {
@@ -70,6 +85,12 @@ export class ListenerController {
       if (!this.startedWindows.has(wId)) return;
       await this._injectIntoTab(tab.id);
       try { await chrome.tabs.sendMessage(tab.id, { command: 'START' }); } catch (_) {}
+      if (tab.url) {
+        this.log.push(wId, 'tab_url_changed', tab.id, {
+          url: tab.url || '',
+          title: tab.title || ''
+        });
+      }
     });
 
     chrome.tabs.onActivated.addListener(async ({ tabId, windowId }) => {

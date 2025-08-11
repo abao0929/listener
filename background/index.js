@@ -19,6 +19,9 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
     if (!tab) return;
     const windowId = tab.windowId;
     if (!controller.isStarted(windowId)) return;
+
+    const payload = { ...(msg.payload || {}), frameId: sender.frameId };
+
     log.push(windowId, msg.eventType, tab.id, msg.payload || {});
   }
 });
