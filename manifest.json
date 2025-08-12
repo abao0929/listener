@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "listener",
   "version": "0.3.0",
-  "description": "Side panel to start/stop listeners across all tabs in current window and log events.",
+  "description": "testAutomation",
   "permissions": [
     "sidePanel",
     "scripting",
